@@ -16,16 +16,14 @@ This repository is a playground for learning and experimenting with new technolo
 
 The projects in this repository cover a variety of technologies, including but not limited to:
 
-- HTML, CSS, and JavaScript
+- JavaScript / Typescript
 - Python
-- React
-- Node.js
-- SQL
-- Machine Learning
+- C#
+- Java
 - And more!
 
 ## Projects
 
 Here are some of the projects you'll find in this repository:
 
-- **Project 1:** pilot :)
+- **Networking with C#:** I use this project to learn about C#'s networking capabilities.
