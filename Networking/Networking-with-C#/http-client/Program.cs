@@ -9,7 +9,9 @@ namespace HttpClientExample
 {
     class Downloader
     {
-        public static string downloadUrl = "https://nkosinathimagagula.github.io/Portfolio/";
+        public static string baseUrl = "https://nkosinathimagagula.github.io";
+        public static string myPortfolioPath = "/Portfolio";
+        public static string downloadUrl = $"{baseUrl}{myPortfolioPath}";
         public static string fileName = "index.html";
 
         public static async Task DownloadWebPage()
