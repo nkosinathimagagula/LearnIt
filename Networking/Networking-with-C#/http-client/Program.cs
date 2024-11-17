@@ -4,6 +4,7 @@ using System.Text;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace HttpClientExample
 {
@@ -12,7 +13,7 @@ namespace HttpClientExample
         public static string baseUrl = "https://nkosinathimagagula.github.io";
         public static string myPortfolioPath = "/Portfolio";
         public static string downloadUrl = $"{baseUrl}{myPortfolioPath}";
-        public static string fileName = "index.html";
+        public static string htmlFileName = "index.html";
 
         public static async Task DownloadWebPage()
         {
@@ -30,12 +31,42 @@ namespace HttpClientExample
                     // get data
                     byte[] data = await response.Content.ReadAsByteArrayAsync();
 
+                    // html file
                     // save it to a file
-                    FileStream fileStream = File.Create(fileName);
-                    await fileStream.WriteAsync(data);
-                    fileStream.Close();
+                    FileStream htmlFileStream = File.Create(htmlFileName);
+                    await htmlFileStream.WriteAsync(data);
+                    htmlFileStream.Close();
 
-                    Console.WriteLine("Done!");
+                    Console.WriteLine("Done!\n");
+
+                    // get other files
+                    Console.WriteLine("Getting other files ...");
+
+                    string htmlContent = await response.Content.ReadAsStringAsync();
+
+                    // stylesheet regex
+                    Regex regex = new Regex("<link rel=\"stylesheet\" href=\"(?<href>[^\"]+)\"");
+                    MatchCollection matchCollection = regex.Matches(htmlContent);
+
+                    Console.WriteLine("Start finding matches...");
+
+                    foreach (Match match in matchCollection)
+                    {
+                        string cssUrl = match.Groups["href"].Value;
+                        Console.WriteLine($"Found: {cssUrl}");
+
+                        HttpResponseMessage cssResponse = await httpClient.GetAsync($"{baseUrl}{cssUrl}");
+                        byte[] cssContent = await cssResponse.Content.ReadAsByteArrayAsync();
+
+                        string cssFileName = Path.GetFileName(cssUrl);
+
+                        FileStream cssFilestream = File.Create(cssFileName);
+                        await cssFilestream.WriteAsync(cssContent);
+                        cssFilestream.Close();
+                    }
+
+                    Console.WriteLine("Done!\n");
+
                 }
             }
         }
