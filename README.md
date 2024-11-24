@@ -20,7 +20,6 @@ The projects in this repository cover a variety of technologies, including but n
 - Python
 - C#
 - Java
-- And more!
 
 ## Projects
 
