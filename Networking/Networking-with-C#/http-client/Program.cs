@@ -75,8 +75,8 @@ namespace HttpClientExample
         {
             Task d1Task = DownloadWebPage();
 
-            Console.WriteLine("Wait for at least 5 seconds...");
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            // Console.WriteLine("Wait for at least 5 seconds...");
+            // Thread.Sleep(TimeSpan.FromSeconds(5));
 
             d1Task.GetAwaiter().GetResult();
         }
