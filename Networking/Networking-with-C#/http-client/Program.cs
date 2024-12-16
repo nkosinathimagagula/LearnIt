@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using System.Net.Http;
@@ -14,6 +14,42 @@ namespace HttpClientExample
         public static string myPortfolioPath = "/Portfolio";
         public static string downloadUrl = $"{baseUrl}{myPortfolioPath}";
         public static string htmlFileName = "index.html";
+
+        public static async Task DownloadCssFiles(HttpResponseMessage htmlResponse)
+        {
+            // stylesheet regex
+            Regex regex = new Regex("<link rel=\"stylesheet\" href=\"(?<href>[^\"]+)\"");
+
+            Console.WriteLine("Getting css files ...");
+
+            // setup httpClient
+            using (HttpClient httpClient = new HttpClient())
+            {
+                if (htmlResponse.IsSuccessStatusCode)
+                {
+                    string htmlContent = await htmlResponse.Content.ReadAsStringAsync();
+
+                    MatchCollection matchCollection = regex.Matches(htmlContent);
+
+                    Console.WriteLine("Start finding matches...");
+
+                    foreach (Match match in matchCollection)
+                    {
+                        string cssUrl = match.Groups["href"].Value;
+                        Console.WriteLine($"Found: {cssUrl}");
+
+                        HttpResponseMessage cssResponse = await httpClient.GetAsync($"{baseUrl}{cssUrl}");
+                        byte[] cssContent = await cssResponse.Content.ReadAsByteArrayAsync();
+
+                        string cssFileName = Path.GetFileName(cssUrl);
+
+                        FileStream cssFilestream = File.Create(cssFileName);
+                        await cssFilestream.WriteAsync(cssContent);
+                        cssFilestream.Close();
+                    }
+                }
+            }
+        }
 
         public static async Task DownloadWebPage()
         {
@@ -37,36 +73,8 @@ namespace HttpClientExample
                     await htmlFileStream.WriteAsync(data);
                     htmlFileStream.Close();
 
-                    Console.WriteLine("Done!\n");
-
-                    // get other files
-                    Console.WriteLine("Getting other files ...");
-
-                    string htmlContent = await response.Content.ReadAsStringAsync();
-
-                    // stylesheet regex
-                    Regex regex = new Regex("<link rel=\"stylesheet\" href=\"(?<href>[^\"]+)\"");
-                    MatchCollection matchCollection = regex.Matches(htmlContent);
-
-                    Console.WriteLine("Start finding matches...");
-
-                    foreach (Match match in matchCollection)
-                    {
-                        string cssUrl = match.Groups["href"].Value;
-                        Console.WriteLine($"Found: {cssUrl}");
-
-                        HttpResponseMessage cssResponse = await httpClient.GetAsync($"{baseUrl}{cssUrl}");
-                        byte[] cssContent = await cssResponse.Content.ReadAsByteArrayAsync();
-
-                        string cssFileName = Path.GetFileName(cssUrl);
-
-                        FileStream cssFilestream = File.Create(cssFileName);
-                        await cssFilestream.WriteAsync(cssContent);
-                        cssFilestream.Close();
-                    }
-
-                    Console.WriteLine("Done!\n");
-
+                    // download other files
+                    await DownloadCssFiles(response);
                 }
             }
         }
@@ -75,10 +83,12 @@ namespace HttpClientExample
         {
             Task d1Task = DownloadWebPage();
 
-            // Console.WriteLine("Wait for at least 5 seconds...");
-            // Thread.Sleep(TimeSpan.FromSeconds(5));
+            Console.WriteLine("Wait for at least 5 seconds...");
+            Thread.Sleep(TimeSpan.FromSeconds(5));
 
             d1Task.GetAwaiter().GetResult();
+
+            Console.WriteLine("Complete!!");
         }
     }
 }
