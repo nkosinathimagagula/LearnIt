@@ -47,6 +47,46 @@ namespace HttpClientExample
                         await cssFilestream.WriteAsync(cssContent);
                         cssFilestream.Close();
                     }
+
+                    Console.WriteLine("\n");
+                }
+            }
+        }
+
+        public static async Task DownloadScriptFiles(HttpResponseMessage htmlResponse)
+        {
+            // script regex
+            Regex regex = new Regex("<script type=\"module\" crossorigin src=\"(?<src>[^\"]+)\"");
+
+            Console.WriteLine("Getting script files ...");
+
+            // setup httpClient
+            using (HttpClient httpClient = new HttpClient())
+            {
+                if (htmlResponse.IsSuccessStatusCode)
+                {
+                    string htmlContent = await htmlResponse.Content.ReadAsStringAsync();
+
+                    MatchCollection matchCollection = regex.Matches(htmlContent);
+
+                    Console.WriteLine("Start finding matches...");
+
+                    foreach (Match match in matchCollection)
+                    {
+                        string scriptUrl = match.Groups["src"].Value;
+                        Console.WriteLine($"Found: {scriptUrl}");
+
+                        HttpResponseMessage scriptResponse = await httpClient.GetAsync($"{baseUrl}{scriptUrl}");
+                        byte[] scriptContent = await scriptResponse.Content.ReadAsByteArrayAsync();
+
+                        string scriptFileName = Path.GetFileName(scriptUrl);
+
+                        FileStream scriptFilestream = File.Create(scriptFileName);
+                        await scriptFilestream.WriteAsync(scriptContent);
+                        scriptFilestream.Close();
+                    }
+
+                    Console.WriteLine("\n");
                 }
             }
         }
@@ -73,8 +113,11 @@ namespace HttpClientExample
                     await htmlFileStream.WriteAsync(data);
                     htmlFileStream.Close();
 
+                    Console.WriteLine("\n");
+
                     // download other files
                     await DownloadCssFiles(response);
+                    await DownloadScriptFiles(response);
                 }
             }
         }
