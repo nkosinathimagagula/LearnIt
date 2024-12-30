@@ -9,3 +9,6 @@
 # VS Code settings
 .vscode/
 .vs
+
+# ================================================        exceptions		================================================ #
+!/Cloud/IaC/aws-cdk/my-cdk-app/bin/
