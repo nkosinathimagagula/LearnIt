@@ -26,3 +26,4 @@ The projects in this repository cover a variety of technologies, including but n
 Here are some of the projects you'll find in this repository:
 
 - **Networking with C#:** I use this project to learn about C#'s networking capabilities.
+- **AWS CDK:** I use this project to learn to provision cloud application resources using AWS CDK.
