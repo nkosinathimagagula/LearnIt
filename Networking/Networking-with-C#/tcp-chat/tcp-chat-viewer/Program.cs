@@ -17,7 +17,7 @@ namespace TcpChatViewer
 
         // buffer & messaging
         public readonly int bufferSize = 2 * 1024;          // 2KB
-        private NetworkStream _messageStream = null;
+        private NetworkStream? _messageStream;
 
         public TcpChatViewer(string serverAddress, int port)
         {
@@ -36,7 +36,7 @@ namespace TcpChatViewer
         {
             // try to connect
             this._client.Connect(this.serverAddress, this.port);
-            EndPoint endPoint = this._client.Client.RemoteEndPoint;
+            EndPoint? endPoint = this._client.Client.RemoteEndPoint;
 
             // check if we're connected
             if (this._client.Connected)
@@ -89,7 +89,7 @@ namespace TcpChatViewer
                 {
                     // read the whole message
                     byte[] messageBuffer = new byte[messageLength];
-                    this._messageStream.Read(messageBuffer, 0, messageLength);
+                    this._messageStream?.Read(messageBuffer, 0, messageLength);
 
                     string message= Encoding.UTF8.GetString(messageBuffer);
                     Console.WriteLine(message);
@@ -133,18 +133,18 @@ namespace TcpChatViewer
                 Socket s = client.Client;
                 return s.Poll(10 * 1000, SelectMode.SelectRead) && (s.Available == 0);
             }
-            catch (SocketException se)
+            catch (SocketException)
             {
                 // we got a socket error, assume it's disconnected
                 return true;
             }
         }
 
-        public static TcpChatViewer viewer;
+        public static TcpChatViewer? viewer;
 
-        protected static void InterruptHandler(object sender, ConsoleCancelEventArgs args)
+        protected static void InterruptHandler(object? sender, ConsoleCancelEventArgs args)
         {
-            viewer.Disconnect();
+            viewer?.Disconnect();
             args.Cancel = true;
         }
 
