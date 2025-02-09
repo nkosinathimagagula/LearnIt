@@ -97,7 +97,7 @@ namespace TcpChatMessenger
                 Thread.Sleep(10);
 
                 // check the server didn't disconnect 
-                if (!_isDisconnected(this._client))
+                if (_isDisconnected(this._client))
                 {
                     this.running = false;
                     Console.WriteLine("Server has disconnected from us. \n: :[");
