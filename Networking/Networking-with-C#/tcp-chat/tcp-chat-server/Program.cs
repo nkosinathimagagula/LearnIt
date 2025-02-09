@@ -30,7 +30,6 @@ namespace TcpChatServer
         // Buffer -- [2KB]
         public readonly int BufferSize = 2 * 1024;
 
-
         // Make a new TCP chat server with our provided name
         public TcpChatServer(string chatName, int port)
         {
@@ -108,7 +107,7 @@ namespace TcpChatServer
             newClient.ReceiveBufferSize = this.BufferSize;
 
             // info
-            EndPoint endPoint = newClient.Client.RemoteEndPoint;
+            EndPoint? endPoint = newClient.Client.RemoteEndPoint;
             Console.WriteLine("Handling a new connection from {0} ...", endPoint);
 
             // Let them identify themselves
@@ -163,7 +162,7 @@ namespace TcpChatServer
                 newClient.Close();
             }
         }
-
+        
         // Sees if any of the clients have left the chat server
         private void _checkForDisconnects()
         {
@@ -210,7 +209,10 @@ namespace TcpChatServer
                 {
                     // there's one.. get it
                     byte[] messageBuffer = new byte[messageLength];
-                    m.GetStream().Read(messageBuffer, 0, messageBuffer.Length);
+                    // Stream.Read and Stream.ReadAsync might return fewer bytes than requested, resulting in unreliable code if the return value isn't checked.
+                    // Stream.ReadExactly and Stream.ReadExactlyAsync are used now
+                    // https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2022
+                    m.GetStream().ReadExactly(messageBuffer, 0, messageBuffer.Length);
 
                     // attach name to it and shove it into the queue
                     string message = String.Format("{0}: {1}", this._names[m], Encoding.UTF8.GetString(messageBuffer));
@@ -247,7 +249,7 @@ namespace TcpChatServer
                 Socket s = client.Client;
                 return s.Poll(10 * 1000, SelectMode.SelectRead) && (s.Available == 0);
             }
-            catch (SocketException se)
+            catch (SocketException)
             {
                 // we got a socket error, assume it's desconnected
                 return true;
@@ -262,11 +264,11 @@ namespace TcpChatServer
         }
 
 
-        public static TcpChatServer chat;
+        public static TcpChatServer? chat;
 
-        protected static void InterruptHandler(object sender, ConsoleCancelEventArgs args)
+        protected static void InterruptHandler(object? sender, ConsoleCancelEventArgs args)
         {
-            chat.Shutdown();
+            chat?.Shutdown();
             args.Cancel = true;
         }
 
