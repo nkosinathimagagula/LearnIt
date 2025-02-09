@@ -16,7 +16,7 @@ namespace TcpChatMessenger
 
         // buffer & messaging
         public readonly int bufferSize = 2 * 1024;      // 2KB
-        private NetworkStream _messageStream = null;
+        private NetworkStream? _messageStream;
 
         // personal data
         public readonly string name;
@@ -39,7 +39,7 @@ namespace TcpChatMessenger
         {
             // try to connect
             this._client.Connect(serverAddress, port);
-            EndPoint endpoint = this._client.Client.RemoteEndPoint;
+            EndPoint? endpoint = this._client.Client.RemoteEndPoint;
 
             // make sure we're connected
             if (this._client.Connected)
@@ -48,7 +48,7 @@ namespace TcpChatMessenger
 
                 // Tell them that we're a messenger
                 this._messageStream = this._client.GetStream();
-                byte[] messageBuffer =Encoding.UTF8.GetBytes(String.Format("name:{0}", this.name));
+                byte[] messageBuffer = Encoding.UTF8.GetBytes(String.Format("name:{0}", this.name));
                 this._messageStream.Write(messageBuffer, 0, messageBuffer.Length);
 
                 // if we are still connected after sending our name, that means the server accepts us
@@ -78,7 +78,7 @@ namespace TcpChatMessenger
             {
                 // poll for user input
                 Console.WriteLine("{0}> ", this.name);
-                string message = Console.ReadLine();
+                string message = Console.ReadLine() ?? string.Empty;
 
                 // quit or send a message
                 if ((message.ToLower() == "quit") || (message.ToLower() == "exit"))
@@ -86,11 +86,11 @@ namespace TcpChatMessenger
                     Console.WriteLine("Disconnecting...");
                     this.running = false;
                 }
-                else if (message != String.Empty)
+                else if (message != string.Empty)
                 {
                     // send the message
                     byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
-                    this._messageStream.Write(messageBuffer, 0, messageBuffer.Length);
+                    this._messageStream?.Write(messageBuffer, 0, messageBuffer.Length);
                 }
 
                 // use less cpu
@@ -113,7 +113,7 @@ namespace TcpChatMessenger
 
         private void _cleanupNetworkResources()
         {
-            this._messageStream.Close();
+            this._messageStream?.Close();
             this._messageStream = null;
             this._client.Close();
         }
@@ -127,7 +127,7 @@ namespace TcpChatMessenger
                 Socket socket = client.Client;
                 return socket.Poll(10 * 1000, SelectMode.SelectRead) && (socket.Available == 0);
             }
-            catch (SocketException se)
+            catch (SocketException)
             {
                 // We got a socket error, assume it's disconnected
                 return true;
@@ -138,7 +138,7 @@ namespace TcpChatMessenger
         {
             // get name
             Console.WriteLine("Enter a name to use: ");
-            string name = Console.ReadLine();
+            string name = Console.ReadLine() ?? string.Empty;
 
             // setup the messenger
             string host = "localhost";                  // args[0].Trim();
