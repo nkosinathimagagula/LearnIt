@@ -91,4 +91,4 @@ const material = new THREE.ShaderMaterial({
 
 ## Resources
 - [Three.js Documentation](https://threejs.org/docs/)
-- [The Book of Shaders](https://threejs.org/docs/)
+- [The Book of Shaders](https://thebookofshaders.com/)
