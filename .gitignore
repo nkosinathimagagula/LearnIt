@@ -1,7 +1,7 @@
 # ================================================	start of C# projects	================================================ #
 # Build Folders
-/**/**/**/bin/
-/**/**/**/obj/
+/**/Networking-with-C#/**/bin/
+/**/Networking-with-C#/**/obj/
 
 # ================================================	end of C# projects		================================================ #
 
@@ -9,6 +9,12 @@
 /**/**/**/node_modules
 
 /**/**/glslEditor
+
+# AWS SDK
+/Cloud/IaC/aws-cdk/**/*.js
+/Cloud/IaC/aws-cdk/**/*.d.ts
+/Cloud/IaC/aws-cdk/**/.cdk.staging
+/Cloud/IaC/aws-cdk/**/cdk.out
 
 # ================================================	end of node projects	================================================ #
 
@@ -18,4 +24,7 @@
 .vs
 
 # ================================================        exceptions		================================================ #
-!/Cloud/IaC/aws-cdk/my-cdk-app/bin/
+!/Cloud/IaC/aws-cdk/**/bin/
+!/Cloud/IaC/aws-cdk/**/lib/
+!/Cloud/IaC/aws-cdk/**/jest.config.js
+
