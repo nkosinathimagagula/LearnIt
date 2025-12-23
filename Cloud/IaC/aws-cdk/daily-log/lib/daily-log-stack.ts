@@ -116,7 +116,7 @@ export class DailyLogStack extends Stack {
     const lambdaIntegration = new apigateway.LambdaIntegration(dailyLogLambda);
 
     // Define resource and methods for the API
-    const dailyLogResource = api.root.addResource("log");
+    const dailyLogResource = api.root.addResource("logs");
 
     dailyLogResource.addMethod("GET", lambdaIntegration);
 
