@@ -27,3 +27,4 @@ Here are some of the projects you'll find in this repository:
 
 - **Networking with C#:** I use this project to learn about C#'s networking capabilities.
 - **AWS CDK:** I use this project to learn to provision cloud application resources using AWS CDK.
+- **Recipe App:** I use this project to learn developing mobile applications using React Native.
