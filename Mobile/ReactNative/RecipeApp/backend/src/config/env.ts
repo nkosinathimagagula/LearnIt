@@ -1,9 +1,12 @@
 import "dotenv/config";
 
 type EnvType = {
-  PORT: number;
+  SERVER_PORT: number;
+
+  DATABASE_URL: string;
 }
 
 export const ENV: EnvType = {
-  PORT: parseInt(process.env.PORT as string),
+  SERVER_PORT: parseInt(process.env.SERVER_PORT as string),
+  DATABASE_URL: process.env.DATABASE_URL as string,
 }
