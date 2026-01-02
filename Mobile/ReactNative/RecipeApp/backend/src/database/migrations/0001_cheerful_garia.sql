@@ -1,0 +1,1 @@
+ALTER TABLE "favourites" ALTER COLUMN "cook_time" SET DATA TYPE text;

@@ -6,7 +6,7 @@ export const favouritesTable = pgTable("favourites", {
   recipeId: integer("recipe_id").notNull(),
   title: text("title").notNull(),
   image: text("image"),
-  cookTime: integer("cook_time"),
+  cookTime: text("cook_time"),
   servings: integer("servings"),
   createdAt: timestamp("created_at").defaultNow(),
 });
