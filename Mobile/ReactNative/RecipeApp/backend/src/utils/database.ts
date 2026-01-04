@@ -28,3 +28,24 @@ export const addRecipeToFavourites = async (
     client.release();
   }
 };
+
+export const removeRecipeFromFavourites = async (
+  userId: string,
+  recipeId: string
+): Promise<Recipe | undefined> => {
+  const client = await pool.connect();
+
+  try {
+    const result = await client.query(
+      "DELETE FROM favourites WHERE user_id = $1 AND recipe_id = $2 RETURNING *",
+      [userId, recipeId]
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error removing recipe from favourites: ", error);
+    throw error;
+  } finally {
+    client.release();
+  }
+};

@@ -1,7 +1,10 @@
 import express from "express";
 import { ENV } from "./config/env";
 import type { Recipe } from "./types/database";
-import { addRecipeToFavourites } from "./utils/database";
+import {
+  addRecipeToFavourites,
+  removeRecipeFromFavourites,
+} from "./utils/database";
 import { validateAlphanumeric } from "./utils/validations";
 
 const PORT = ENV.SERVER_PORT;
@@ -37,12 +40,10 @@ app.post("/api/favourites", async (req, res) => {
     ]);
 
     if (!isValid) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: `Invalid value for \"${invalidKey}\"`,
-        });
+      return res.status(400).json({
+        success: false,
+        message: `Invalid value for \"${invalidKey}\"`,
+      });
     }
 
     const newFavourite = {
@@ -59,6 +60,46 @@ app.post("/api/favourites", async (req, res) => {
     res.status(201).json({ success: true, data: result });
   } catch (error) {
     console.error("Error adding recipe to favourites: ", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+});
+
+app.delete("/api/favourites/:userId/:recipeId", async (req, res) => {
+  try {
+    const { userId, recipeId } = req.params;
+
+    if (!userId || !recipeId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing required parameters" });
+    }
+
+    const { isValid, invalidKey } = validateAlphanumeric(req.params, [
+      "userId",
+      "recipeId",
+    ]);
+
+    if (!isValid) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid value for \"${invalidKey}\"`,
+      });
+    }
+
+    const result = await removeRecipeFromFavourites(userId, recipeId);
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Favourite recipe not found for user",
+      });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "Recipe removed from favourites" });
+  } catch (error) {
+    console.error("Error deleting recipe from favourites: ", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
