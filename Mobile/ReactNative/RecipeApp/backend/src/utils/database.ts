@@ -49,3 +49,21 @@ export const removeRecipeFromFavourites = async (
     client.release();
   }
 };
+
+export const getUserFavourites = async (userId: string): Promise<Recipe[]> => {
+  const client = await pool.connect();
+
+  try {
+    const result = await client.query(
+      "SELECT recipe_id, title, image, cook_time, servings FROM favourites WHERE user_id = $1",
+      [userId]
+    );
+
+    return result.rows;
+  } catch (error) {
+    console.error("Error fetching user favourites: ", error);
+    throw error;
+  } finally {
+    client.release();
+  }
+};

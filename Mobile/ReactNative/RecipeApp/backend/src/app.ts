@@ -3,6 +3,7 @@ import { ENV } from "./config/env";
 import type { Recipe } from "./types/database";
 import {
   addRecipeToFavourites,
+  getUserFavourites,
   removeRecipeFromFavourites,
 } from "./utils/database";
 import { validateAlphanumeric } from "./utils/validations";
@@ -100,6 +101,43 @@ app.delete("/api/favourites/:userId/:recipeId", async (req, res) => {
       .json({ success: true, message: "Recipe removed from favourites" });
   } catch (error) {
     console.error("Error deleting recipe from favourites: ", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+});
+
+app.get("/api/favourites/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing required parameters" });
+    }
+
+    const { isValid, invalidKey } = validateAlphanumeric(req.params, [
+      "userId",
+    ]);
+
+    if (!isValid) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid value for \"${invalidKey}\"`,
+      });
+    }
+
+    const results = await getUserFavourites(userId);
+
+    if (!results) {
+      return res.status(404).json({
+        success: false,
+        message: "No favourite recipes found for user",
+      });
+    }
+
+    res.status(200).json({ success: true, data: results });
+  } catch (error) {
+    console.error("Error fetching user favourites: ", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
