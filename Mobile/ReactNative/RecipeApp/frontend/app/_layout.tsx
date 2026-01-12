@@ -14,8 +14,6 @@ export default function RootLayout() {
           backgroundColor: COLORS.background
         }}
       >
-        {/* <Stack screenOptions={{ headerShown: false }} />
-        <StatusBar barStyle={"default"} /> */}
         <Slot />
       </SafeAreaView>
     </ClerkProvider>
