@@ -36,6 +36,17 @@ export const MealAPI = {
     }
   },
 
+  getRandomMeal: async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/random.php`);
+      const data = await response.json();
+      return data.meals ? data.meals[0] : null;
+    } catch (error) {
+      console.error("Error fetching random meal:", error);
+      return null;
+    }
+  },
+
   getCategories: async () => {
     try {
       const response = await fetch(`${BASE_URL}/categories.php`);
