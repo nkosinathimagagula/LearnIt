@@ -1,3 +1,5 @@
+import { TransformedMealType } from "@/types/recipes";
+
 const BASE_URL = "https://www.themealdb.com/api/json/v1/1" as const;
 
 export const MealAPI = {
@@ -25,17 +27,6 @@ export const MealAPI = {
     }
   },
 
-  getRandomMeals: async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/random.php`);
-      const data = await response.json();
-      return data.meals || [];
-    } catch (error) {
-      console.error("Error fetching random meals:", error);
-      return [];
-    }
-  },
-
   getRandomMeal: async () => {
     try {
       const response = await fetch(`${BASE_URL}/random.php`);
@@ -44,6 +35,19 @@ export const MealAPI = {
     } catch (error) {
       console.error("Error fetching random meal:", error);
       return null;
+    }
+  },
+
+  getRandomMeals: async (count: number = 6) => {
+    try {
+      const promises = Array(count)
+        .fill("")
+        .map(() => MealAPI.getRandomMeal());
+      const meals = await Promise.all(promises);
+      return meals.filter((meal) => meal !== null);
+    } catch (error) {
+      console.error("Error getting random meals:", error);
+      return [];
     }
   },
 
@@ -84,8 +88,8 @@ export const MealAPI = {
     }
   },
 
-  transformMealData: (meal: any) => {
-    if (!meal) return null;
+  transformMealData: (meal: any): TransformedMealType | undefined => {
+    if (!meal) return undefined;
 
     const ingredients = [];
     for (let i = 1; i <= 20; i++) {
