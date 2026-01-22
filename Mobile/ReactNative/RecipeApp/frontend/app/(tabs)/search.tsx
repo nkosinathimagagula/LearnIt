@@ -8,6 +8,7 @@ import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native'
 import RecipeCard from '../components/RecipeCard';
 import { TransformedMealType } from '@/types/recipes';
 import NoResultsFound from '../components/NoResultsFound';
+import LoadingSpinner from '../components/LoadingSplinner';
 
 export default function SearchScreen() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -70,7 +71,7 @@ export default function SearchScreen() {
         loadInitialData();
     }, []);
 
-    if (initialLoading) return <Text>Loading ...</Text>
+    if (initialLoading) return <LoadingSpinner message='Loading recipes...' />
 
     return (
         <View
@@ -123,7 +124,7 @@ export default function SearchScreen() {
                 {
                     loading ? (
                         <View style={searchStyles.loadingContainer}>
-                            <Text>Loading...</Text>
+                            <LoadingSpinner message='Searching recipes...' size="small" />
                         </View>
                     ) : (
                         <FlatList
