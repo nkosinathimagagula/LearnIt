@@ -12,8 +12,7 @@ const RecipeCard = ({ recipe }: { recipe: TransformedMealType | undefined }) => 
     return (
         <TouchableOpacity
             style={recipeCardStyles.container}
-            // TODO: Enable navigation to recipe details
-            // onPress={() => router.push(`/recipe/${recipe.id}`)}
+            onPress={() => router.push({ pathname: '/recipe/[id]', params: { id: recipe?.id! } })}
             activeOpacity={0.8}
         >
             <View
