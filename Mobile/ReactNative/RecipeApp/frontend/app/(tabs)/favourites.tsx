@@ -18,7 +18,7 @@ export default function FavouritesScreen() {
 
     const loadFavourites = async () => {
         try {
-            const response = await fetch(`${API_URL}/api/favourites/${user?.id}`);
+            const response = await fetch(`${API_URL}/favourites/${user?.id}`);
 
             if (!response.ok) {
                 throw new Error(`failed to fetch favourites`);
