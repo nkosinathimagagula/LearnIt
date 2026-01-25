@@ -9,13 +9,14 @@ import { View, Text, ScrollView, TouchableOpacity, FlatList, RefreshControl } fr
 import CategoryFilter from "../components/CategoryFilter";
 import { TransformedMealType } from "@/types/recipes";
 import RecipeCard from "../components/RecipeCard";
+import LoadingSpinner from "../components/LoadingSplinner";
 
 const HomeScreen = () => {
     const router = useRouter();
     const [selectedCategory, setSelectedCategory] = useState<string>();
     const [recipes, setRecipes] = useState<(TransformedMealType | undefined)[]>([]);
     const [categories, setCategories] = useState([]);
-    const [featuredRecipe, setFeaturedRecipe] = useState<any>();
+    const [featuredRecipe, setFeaturedRecipe] = useState<TransformedMealType>();
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
@@ -80,6 +81,8 @@ const HomeScreen = () => {
         loadData();
     }, [])
 
+    if (loading) return <LoadingSpinner message="Loading ..." />
+
     return (
         <View
             style={homeStyles.container}
@@ -120,8 +123,7 @@ const HomeScreen = () => {
                             <TouchableOpacity
                                 style={homeStyles.featuredCard}
                                 activeOpacity={0.9}
-                            // TODO: Enable navigation to recipe details
-                            // onPress={() => router.push(`/recipe/${featuredRecipe.id}`)}
+                                onPress={() => router.push({ pathname: '/recipe/[id]', params: { id: featuredRecipe.id } })}
                             >
                                 <View
                                     style={homeStyles.featuredImageContainer}
