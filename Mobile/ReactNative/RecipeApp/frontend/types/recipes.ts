@@ -8,7 +8,7 @@ export type TransformedMealType = {
   category: string;
   area: string;
   ingredients: string[];
-  instructions: string;
+  instructions: string[];
   video: string;
   originalData: any;
 };
