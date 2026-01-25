@@ -4,7 +4,9 @@ import { Ionicons } from "@expo/vector-icons"
 import { Redirect, Tabs } from "expo-router"
 
 const TabsLayout = () => {
-    const { isSignedIn } = useAuth()
+    const { isSignedIn, isLoaded } = useAuth()
+
+    if (!isLoaded) return;
 
     if (!isSignedIn) return <Redirect href={"/(auth)/sign-in"} />
 
