@@ -81,7 +81,7 @@ const HomeScreen = () => {
         loadData();
     }, [])
 
-    if (loading) return <LoadingSpinner message="Loading ..." />
+    if (loading && !refreshing) return <LoadingSpinner message="Loading recipes..." />
 
     return (
         <View
