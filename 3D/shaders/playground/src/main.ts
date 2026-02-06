@@ -2,11 +2,13 @@ import * as THREE from "three";
 
 import { Sizes } from "./types";
 
-import vertexShader from "./shaders/001-colors/vertex.glsl?raw";
-import fragmentShader from "./shaders/001-colors/fragment.glsl?raw";
+import vertexShader from "./shaders/000-shaping-functions/vertex.glsl?raw";
+import fragmentShader from "./shaders/000-shaping-functions/fragment.glsl?raw";
 
 // Canvas
-const canvas: HTMLElement = document.querySelector("canvas.webgl") as HTMLElement;
+const canvas: HTMLElement = document.querySelector(
+  "canvas.webgl",
+) as HTMLElement;
 
 // Scene
 const scene = new THREE.Scene();
@@ -16,12 +18,20 @@ const sizes: Sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
   pixelRatio: Math.min(window.devicePixelRatio, 2),
-}
+};
 
-sizes.resolution = new THREE.Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio);
+sizes.resolution = new THREE.Vector2(
+  sizes.width * sizes.pixelRatio,
+  sizes.height * sizes.pixelRatio,
+);
 
-// Camera 
-const camera = new THREE.PerspectiveCamera(25, sizes.width / sizes.height, 0.1, 100);
+// Camera
+const camera = new THREE.PerspectiveCamera(
+  25,
+  sizes.width / sizes.height,
+  0.1,
+  100,
+);
 camera.position.set(0, 0, 3);
 scene.add(camera);
 
@@ -32,7 +42,7 @@ const geometry = new THREE.PlaneGeometry(2, 2);
 const uniforms = {
   uTime: new THREE.Uniform(1.0),
   uResolution: new THREE.Uniform(sizes.resolution),
-  uMouse: new THREE.Uniform(new THREE.Vector2())
+  uMouse: new THREE.Uniform(new THREE.Vector2()),
 };
 
 // Material
@@ -59,7 +69,10 @@ window.addEventListener("resize", () => {
   sizes.height = window.innerHeight;
   sizes.pixelRatio = Math.min(window.devicePixelRatio, 2);
 
-  sizes.resolution?.set(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio);
+  sizes.resolution?.set(
+    sizes.width * sizes.pixelRatio,
+    sizes.height * sizes.pixelRatio,
+  );
 
   // Update camera
   camera.aspect = sizes.width / sizes.height;
@@ -82,12 +95,12 @@ const clock = new THREE.Clock();
 const animate = () => {
   // Update time
   uniforms.uTime.value = clock.getElapsedTime();
-  
+
   // Render
   renderer.render(scene, camera);
 
   // Call animate on the next frame
   window.requestAnimationFrame(animate);
-}
+};
 
 animate();
