@@ -40,9 +40,9 @@ const geometry = new THREE.PlaneGeometry(2, 2);
 
 // Uniforms
 const uniforms = {
-  uTime: new THREE.Uniform(1.0),
-  uResolution: new THREE.Uniform(sizes.resolution),
-  uMouse: new THREE.Uniform(new THREE.Vector2()),
+  u_time: new THREE.Uniform(1.0),
+  u_resolution: new THREE.Uniform(sizes.resolution),
+  u_mouse: new THREE.Uniform(new THREE.Vector2()),
 };
 
 // Material
@@ -85,8 +85,8 @@ window.addEventListener("resize", () => {
 
 window.addEventListener("mousemove", (mouseEvent: MouseEvent) => {
   // Update mouse position
-  uniforms.uMouse.value.x = mouseEvent.x;
-  uniforms.uMouse.value.y = mouseEvent.y;
+  uniforms.u_mouse.value.x = mouseEvent.x;
+  uniforms.u_mouse.value.y = mouseEvent.y;
 });
 
 // Animate
@@ -94,7 +94,7 @@ const clock = new THREE.Clock();
 
 const animate = () => {
   // Update time
-  uniforms.uTime.value = clock.getElapsedTime();
+  uniforms.u_time.value = clock.getElapsedTime();
 
   // Render
   renderer.render(scene, camera);
