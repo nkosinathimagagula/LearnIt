@@ -16,7 +16,8 @@ void main() {
 
     // float y = sin(st.x * (u_time *2.0)) * 0.5 + 0.5;
     // float y = sin((st.x * PI) + u_time);
-    float y = abs(sin(st.x * PI+ u_time));
+    // float y = abs(sin(st.x * PI+ u_time));
+    float y = pow(abs(sin(st.x)), u_time);
 
     vec3 color = vec3(y);
 
