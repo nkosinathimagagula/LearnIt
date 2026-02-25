@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { Sizes } from "./types";
 
 import vertexShader from "./shaders/000-shaping-functions/vertex.glsl?raw";
-import fragmentShader from "./shaders/000-shaping-functions/fragment.glsl?raw";
+import fragmentShader from "./shaders/000-shaping-functions/fragment6.glsl?raw";
 
 // Canvas
 const canvas: HTMLElement = document.querySelector(
