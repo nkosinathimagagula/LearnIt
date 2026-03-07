@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
     "drizzle:push": "npx drizzle-kit push",
     "drizzle:generate": "npx drizzle-kit generate",
