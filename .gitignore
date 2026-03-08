@@ -28,3 +28,4 @@
 !/Cloud/IaC/aws-cdk/**/lib/
 !/Cloud/IaC/aws-cdk/**/jest.config.js
 
+.env
