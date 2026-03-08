@@ -21,13 +21,15 @@ void main(){
     vec3 color = vec3(0.0);
 
     // Use polar coordinates instead of cartesian
-    vec2 toCenter = vec2(0.5)-st;
-    float angle = atan(toCenter.y,toCenter.x);
+    vec2 toCenter = vec2(0.5) - st;
+    // float angle = atan(toCenter.y,toCenter.x);
+    // Rotate 
+    float angle = atan(toCenter.y,toCenter.x) + (u_time * 3.0);
     float radius = length(toCenter)*2.0;
 
     // Map the angle (-PI to PI) to the Hue (from 0 to 1)
     // and the Saturation to the radius
-    color = hsb2rgb(vec3((angle/TWO_PI)+0.5,radius,1.0));
+    color = hsb2rgb(vec3((angle/TWO_PI)+0.5,radius + 0.5,1.0));
 
     // color = mix(color, vec3(1.0), step(1.0, radius));
     color = mix(color, vec3(0), smoothstep(0.85,1.0,radius));
