@@ -1,0 +1,23 @@
+{
+  "name": "the-bridge-form-server",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "main.ts",
+  "scripts": {
+    "dev": "nodemon main.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.3",
+    "@types/socket.io": "^3.0.2",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2"
+  }
+}
