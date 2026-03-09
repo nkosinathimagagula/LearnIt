@@ -1,5 +1,7 @@
 [workspace]
 members = [
     "hello-world",
-    "guessing-game"
+    "guessing-game", 
+    "structs"
 ]
+resolver = "1"
