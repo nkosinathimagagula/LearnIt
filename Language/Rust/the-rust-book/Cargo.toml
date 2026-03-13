@@ -3,5 +3,5 @@ members = [
     "hello-world",
     "guessing-game", 
     "structs"
-, "enums", "module-system"]
+, "enums", "module-system", "collections"]
 resolver = "1"
