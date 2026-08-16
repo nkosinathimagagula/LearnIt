@@ -2,6 +2,13 @@
 members = [
     "hello-world",
     "guessing-game", 
-    "structs"
-, "enums", "module-system", "collections", "errors", "generics", "traits"]
-resolver = "1"
+    "structs", 
+    "enums", 
+    "module-system", 
+    "collections", 
+    "errors", 
+    "generics", 
+    "traits", 
+    "lifetimes"
+]
+resolver = "3"
