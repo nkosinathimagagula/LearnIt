@@ -9,6 +9,7 @@ members = [
     "errors", 
     "generics", 
     "traits", 
-    "lifetimes"
+    "lifetimes", 
+    "adder"
 ]
 resolver = "3"
