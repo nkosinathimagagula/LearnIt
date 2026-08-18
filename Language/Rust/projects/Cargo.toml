@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "cli-to-do-list",
+    "minigrep"
+]
+resolver = "3"
