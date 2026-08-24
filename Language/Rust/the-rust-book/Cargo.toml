@@ -11,6 +11,7 @@ members = [
     "traits", 
     "lifetimes", 
     "adder",
-    "closures"
+    "closures",
+    "iterators"
 ]
 resolver = "3"
