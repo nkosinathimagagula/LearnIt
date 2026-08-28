@@ -1,0 +1,15 @@
+[package]
+name = "my_crate"
+version = "0.1.0"
+edition = "2024"
+description = "collection of utilities to make performing certain calculations more convenient"
+license = "MIT"
+
+[dependencies]
+
+
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+opt-level = 3

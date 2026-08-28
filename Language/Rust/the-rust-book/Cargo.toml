@@ -12,6 +12,7 @@ members = [
     "lifetimes", 
     "adder",
     "closures",
-    "iterators"
+    "iterators",
+    "my_crate"
 ]
 resolver = "3"
