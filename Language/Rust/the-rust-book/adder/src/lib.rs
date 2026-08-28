@@ -1,3 +1,5 @@
+use my_crate;
+
 #[derive(Debug)]
 struct Rectangle {
     width: u32,
@@ -12,6 +14,10 @@ impl Rectangle {
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
+}
+
+pub fn add_one(x: i32) -> i32 {
+    my_crate::add_one(x)
 }
 
 #[cfg(test)]
@@ -49,5 +55,12 @@ mod tests {
             height: 1,
         };
         assert!(!smaller.can_hold(&larger));
+    }
+
+    #[test]
+    fn adds_one() {
+        let num = 2;
+
+        assert_eq!(3, add_one(num));
     }
 }
